@@ -1,15 +1,13 @@
-import { InputGroup, FormControl, Button } from "react-bootstrap";
+import { InputGroup, FormControl, Button, FormGroup,Form } from "react-bootstrap";
 function SearchBar({pokemonList, setSearchResults}){
     return(
-        <InputGroup className="mb-3">
-        <FormControl
-          placeholder="Search by name"
-          onInput={onInputHandler}
-        />
-        <Button variant="outline-primary">
-          Search
-        </Button>
-      </InputGroup>
+        <FormGroup className="mb-3">
+          <Form.Label>Search</Form.Label>
+          <FormControl
+           placeholder="Search by name"
+           onInput={onInputHandler}
+          />
+      </FormGroup>
     )
 
     function onInputHandler(e){
