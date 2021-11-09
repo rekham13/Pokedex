@@ -8,7 +8,7 @@ function PokemonList({list}){
             const capitalizedName = getCapitalizedName(pokemon.name);
             const imgSrc = getImageSrcFor(pokemon.id);
             return (
-                <Col xs={12} md={4} key={idx} style={{marginBottom:"1rem"}}>
+                <Col sm={6} md={4} key={idx} style={{marginBottom:"1rem"}}>
                     <Card>
                         <Card.Img variant="top" src={imgSrc} />
                         <Card.Body>
@@ -24,7 +24,7 @@ function PokemonList({list}){
                                     })
                                 }
                             </Card.Text>
-                            <Button variant="primary">View More</Button>
+                            <Button variant="dark">View More</Button>
                         </Card.Body>
                     </Card>
                 </Col>
