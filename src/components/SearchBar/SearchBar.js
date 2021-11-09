@@ -1,5 +1,5 @@
 import { InputGroup, FormControl, Button, FormGroup,Form } from "react-bootstrap";
-function SearchBar({pokemonList, setSearchResults}){
+function SearchBar({list, setSearchResults}){
     return(
         <FormGroup className="mb-3">
           <Form.Label>Search</Form.Label>
@@ -12,9 +12,9 @@ function SearchBar({pokemonList, setSearchResults}){
 
     function onInputHandler(e){
         const value = e.target.value.trim();
-        const filteredResults = getFilteredListFor(value, pokemonList);
+        const searchResults = getFilteredListFor(value, list);
 
-        setSearchResults(filteredResults);
+        setSearchResults(searchResults);
     }
 
     function getFilteredListFor(filter, toFilterList){
