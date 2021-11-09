@@ -1,12 +1,15 @@
 import { useState,useEffect } from "react"
-import { Container, Row, Col, Card, Button,Badge } from "react-bootstrap";
-import { fetchGet, getCapitalizedName,getDetailedList, getImageSrcFor } from "../../util";
+import { Container, Row } from "react-bootstrap";
+import PokemonList from "../../components/PokemonList";
+import SearchBar from "../../components/SearchBar/SearchBar";
+import { fetchGet, getDetailedList } from "../../util";
 
 const baseURL = process.env.REACT_APP_BASEURL;
 
 function Home() {
     const [currentPageUrl, setCurrentPageUrl] = useState();
-    const [pokemonList, setPokemonList] = useState();
+    const [pokemonList, setPokemonList] = useState([]);
+    const [searchResults, setSearchResults] = useState();
 
     useEffect(() => {
         fetchGet(baseURL + '/pokemon').then(async(data) => {
@@ -18,36 +21,11 @@ function Home() {
     
     return (
         <Container>
-            <h1>{process.env.REACT_APP_TITLE}</h1>
+            <SearchBar pokemonList = {pokemonList} setSearchResults={setSearchResults} />
             <Row>
-            {
-                pokemonList && pokemonList.map((pokemon, idx) => {
-                    const capitalizedName = getCapitalizedName(pokemon.name);
-                    const imgSrc = getImageSrcFor(pokemon.id);
-                    return (
-                        <Col xs={12} md={4} key={idx} style={{marginBottom:"1rem"}}>
-                            <Card>
-                                <Card.Img variant="top" src={imgSrc} />
-                                <Card.Body>
-                                    <Card.Title>{ capitalizedName }</Card.Title>
-                                    <Card.Text>
-                                        {
-                                            pokemon.properTypes.map((type,idx) => {
-                                                return (
-                                                    <Badge key={idx} pill bg='secondary' style={{ marginRight:'.5rem', padding:'.5rem'}}>
-                                                        {type}
-                                                    </Badge>
-                                                )
-                                            })
-                                        }
-                                    </Card.Text>
-                                    <Button variant="primary">View More</Button>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    )
-                })
-            }
+                {
+                    (searchResults !== undefined) ?  <PokemonList list={searchResults} /> : <PokemonList list={pokemonList} />
+                }
             </Row>
         </Container> 
     )
