@@ -1,5 +1,7 @@
 const fetchGet = async(url, options={}) => {
-    const response = await fetch(url,options);
+    const baseURL = process.env.REACT_APP_BASEURL;
+    const URL = baseURL+url;
+    const response = await fetch(URL,options);
     const data = await response.json();
 
     return data;
@@ -17,7 +19,7 @@ const getDetailedList = async(pokemonList) => {
 
     for await (const pokemon of pokemonList) {
         const baseURL = process.env.REACT_APP_BASEURL;
-        const data = await fetchGet(baseURL + `/pokemon/${pokemon.name}`);
+        const data = await fetchGet(`/pokemon/${pokemon.name}`);
         const { types, name,id } = data;
 
         const properTypes = getProperTypes(types);
