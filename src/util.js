@@ -66,4 +66,12 @@ const getFormattedForImageId = (id) => {
     return formattedForImageId;
 }
 
-export { fetchGet, getCapitalizedName, getDetailedList,getImageSrcFor};
+const getResourceURL = (url)=>{
+    if(url == null) return null;
+
+    const parsedURL = new URL(url);
+
+    return `/pokemon/${parsedURL.search}`;
+}
+
+export { fetchGet, getCapitalizedName, getDetailedList,getImageSrcFor,getResourceURL};
