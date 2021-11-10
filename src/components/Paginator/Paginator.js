@@ -1,4 +1,3 @@
-import paginationFactory, { PaginationListStandalone, PaginationProvider } from "react-bootstrap-table2-paginator";
 import { Button, Container } from "react-bootstrap";
 
 function Paginator({nextPageURL, prevPageURL, setCurrentPageURL, limit,setLimit, offset,setOffset}){
