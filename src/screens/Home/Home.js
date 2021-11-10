@@ -11,16 +11,21 @@ function Home() {
     const [filteredResults, setFilteredResults] = useState();
     const [filterApplied, setFilterApplied] = useState(false);
 
+    const [offset,setOffset] = useState(0);
+    const [limit, setLimit] = useState(20);
+
+    const [currentPageURL, setCurrentPageURL] = useState(`/pokemon?limit=${limit}&offset=${offset}`);
+
     const [listToRender, setListToRender] = useState();
     
     useEffect(() => {
-        fetchGet('/pokemon').then(async(data) => {
+        fetchGet(currentPageURL).then(async(data) => {
             const pokemonList = data.results;
             const detailedPokemonList = await getDetailedList(pokemonList);
             setPokemonList(detailedPokemonList);
             setListToRender(detailedPokemonList);
         })
-    }, []);       
+    }, [currentPageURL]);       
 
     return ( 
        (pokemonList === undefined || listToRender === undefined) ?
@@ -36,7 +41,7 @@ function Home() {
                 <SearchBar list = {pokemonList} setListToRender={setListToRender} />
             }
             <Container className="d-flex flex-column flex-sm-row justify-content-sm-between p-0">
-                <PokePerPage />
+                <PokePerPage offset={offset} limit={limit} setCurrentPageURL={setCurrentPageURL} setLimit={setLimit} />
                 <FilterByType list={pokemonList} setFilteredResults={setFilteredResults} setListToRender={setListToRender}  setFilterApplied={setFilterApplied} />
             </Container>
             <Row>

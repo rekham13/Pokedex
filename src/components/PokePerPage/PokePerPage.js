@@ -1,15 +1,29 @@
-import { Container, Form,Dropdown,DropdownButton,Button } from "react-bootstrap"
+import { Dropdown,DropdownButton } from "react-bootstrap"
 
-function PokePerPage(){
+function PokePerPage({limit, offset, setCurrentPageURL,setLimit}){
+    console.log(limit, offset);
+    const limits = [10,20,30,40,50];
+
     return(
-            <DropdownButton title="Poke's Per Page" variant="dark" menuVariant="dark" className="mb-3">
-                <Dropdown.Item eventKey="1">10</Dropdown.Item>
-                <Dropdown.Item eventKey="2">20</Dropdown.Item>
-                <Dropdown.Item eventKey="3">30</Dropdown.Item>
-                <Dropdown.Item eventKey="4">40</Dropdown.Item>
-                <Dropdown.Item eventKey="5">50</Dropdown.Item>
+            <DropdownButton title="Poke's Per Page" variant="dark" menuVariant="dark" className="mb-3" onSelect={onSelectHandler}>
+                {
+                    limits.map((numLimit,idx)=>{
+                        console.log(numLimit,limit);
+                        return (
+                            (numLimit === limit) ?
+                            <Dropdown.Item eventKey={numLimit} key={idx} active>{numLimit}</Dropdown.Item>
+                            :
+                            <Dropdown.Item eventKey={numLimit} key={idx}>{numLimit}</Dropdown.Item>
+                        )
+                    })
+                }
             </DropdownButton>
     )
+
+    function onSelectHandler(newlimit){
+        setLimit(+newlimit);
+        setCurrentPageURL(`/pokemon?offset=${offset}&limit=${newlimit}`);
+    }
 }
 
 export default PokePerPage;
