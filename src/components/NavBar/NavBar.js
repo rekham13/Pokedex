@@ -3,7 +3,7 @@ function NavBar(){
     return(
         <Navbar variant="dark" bg="dark" style={{marginBottom:"2rem"}}>
             <Container style={{justifyContent:"center"}}>
-                <Navbar.Brand href="#">PokeDex</Navbar.Brand>
+                <Navbar.Brand href="/">PokeDex</Navbar.Brand>
             </Container>
         </Navbar>
     )
