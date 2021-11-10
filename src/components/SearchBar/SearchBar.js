@@ -1,5 +1,6 @@
 import { InputGroup, FormControl, Button, FormGroup,Form } from "react-bootstrap";
-function SearchBar({list, setSearchResults}){
+function SearchBar({list, setListToRender}){
+    console.log(list);  
     return(
         <FormGroup className="mb-3">
           <Form.Label>Search</Form.Label>
@@ -14,7 +15,7 @@ function SearchBar({list, setSearchResults}){
         const value = e.target.value.trim();
         const searchResults = getFilteredListFor(value, list);
 
-        setSearchResults(searchResults);
+        setListToRender(searchResults);
     }
 
     function getFilteredListFor(filter, toFilterList){
