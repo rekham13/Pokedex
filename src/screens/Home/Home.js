@@ -16,8 +16,6 @@ function Home() {
     const [limit, setLimit] = useState(20);
 
     const [currentPageURL, setCurrentPageURL] = useState(`/pokemon?limit=${limit}&offset=${offset}`);
-    const [nextPageURL, setNextPageURL] = useState();
-    const [prevPageURL, setPrevPageURL] = useState();
 
     const [listToRender, setListToRender] = useState();
     
@@ -27,13 +25,6 @@ function Home() {
             const detailedPokemonList = await getDetailedList(pokemonList);
             setPokemonList(detailedPokemonList);
             setListToRender(detailedPokemonList);
-
-            const nextURL = getResourceURL(data.next);
-            const prevURL = getResourceURL(data.previous);
-            console.log(nextPageURL, prevPageURL);
-
-            setNextPageURL(nextURL);
-            setPrevPageURL(prevURL);
         })
     }, [currentPageURL]);       
 
@@ -64,7 +55,7 @@ function Home() {
                     </div> 
                     : <PokemonList list={listToRender} />
                 }
-                <Paginator nextPageURL={nextPageURL} prevPageURL={prevPageURL} setCurrentPageURL={setCurrentPageURL} limit={limit} setLimit={setLimit} offset= {offset} setOffset={setOffset} />
+                <Paginator setCurrentPageURL={setCurrentPageURL} limit={limit} offset= {offset} setOffset={setOffset} />
             </Row>
         </Container> 
     )
