@@ -1,6 +1,6 @@
 import { Button, Container } from "react-bootstrap";
 
-function Paginator({nextPageURL, prevPageURL, setCurrentPageURL, limit,setLimit, offset,setOffset}){
+function Paginator({setCurrentPageURL, limit, offset,setOffset}){
     const commonProps = {
         "variant" : "dark",
         "className" : "mb-3"
@@ -8,11 +8,11 @@ function Paginator({nextPageURL, prevPageURL, setCurrentPageURL, limit,setLimit,
     let nextButtonProps = {};
     let prevButtonProps = {};
     
-    if(nextPageURL === null){
+    if(offset === 1100){
         nextButtonProps.disabled = true;
     }
 
-    if(prevPageURL=== null){
+    if(offset === 0){
         prevButtonProps.disabled = true;
     }
     return(
@@ -28,19 +28,22 @@ function Paginator({nextPageURL, prevPageURL, setCurrentPageURL, limit,setLimit,
     )
 
     function handleNextClick(){
-        setOffset(offset + limit);
-        setCurrentPageURL(nextPageURL);
+        const nextOffset = offset + limit;
+        const url = `/pokemon?offset=${nextOffset}&limit=${limit}}`;
+
+        setOffset(nextOffset);
+        setCurrentPageURL(url);
     }
 
     function handlePrevClick(){
-        let calculatedOffset = offset - limit;
+        let prevOffset = offset - limit;
 
-        if(calculatedOffset < 0) {
-            calculatedOffset = 0;
+        if(prevOffset < 0) {
+            prevOffset = 0;
         }
-
-        setOffset(calculatedOffset);
-        setCurrentPageURL(prevPageURL);
+        const url = `/pokemon?offset=${prevOffset}&limit=${limit}}`;
+        setOffset(prevOffset);
+        setCurrentPageURL(url);
     }
 };
 
