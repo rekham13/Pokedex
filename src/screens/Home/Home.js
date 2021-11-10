@@ -1,10 +1,11 @@
 import { useState,useEffect } from "react"
 import { Container, Row,Spinner } from "react-bootstrap";
 import FilterByType from "../../components/FilterByType/FilterByType";
+import Paginator from "../../components/Paginator/Paginator";
 import PokemonList from "../../components/PokemonList";
 import PokePerPage from "../../components/PokePerPage/PokePerPage";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import { fetchGet, getDetailedList } from "../../util";
+import { fetchGet, getDetailedList, getResourceURL } from "../../util";
 
 function Home() {
     const [pokemonList, setPokemonList] = useState();
@@ -15,6 +16,8 @@ function Home() {
     const [limit, setLimit] = useState(20);
 
     const [currentPageURL, setCurrentPageURL] = useState(`/pokemon?limit=${limit}&offset=${offset}`);
+    const [nextPageURL, setNextPageURL] = useState();
+    const [prevPageURL, setPrevPageURL] = useState();
 
     const [listToRender, setListToRender] = useState();
     
@@ -24,6 +27,13 @@ function Home() {
             const detailedPokemonList = await getDetailedList(pokemonList);
             setPokemonList(detailedPokemonList);
             setListToRender(detailedPokemonList);
+
+            const nextURL = getResourceURL(data.next);
+            const prevURL = getResourceURL(data.previous);
+            console.log(nextPageURL, prevPageURL);
+
+            setNextPageURL(nextURL);
+            setPrevPageURL(prevURL);
         })
     }, [currentPageURL]);       
 
@@ -54,8 +64,8 @@ function Home() {
                     </div> 
                     : <PokemonList list={listToRender} />
                 }
+                <Paginator nextPageURL={nextPageURL} prevPageURL={prevPageURL} setCurrentPageURL={setCurrentPageURL} limit={limit} setLimit={setLimit} offset= {offset} setOffset={setOffset} />
             </Row>
-
         </Container> 
     )
 }
