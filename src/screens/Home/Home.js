@@ -5,12 +5,13 @@ import Paginator from "../../components/Paginator/Paginator";
 import PokemonList from "../../components/PokemonList";
 import PokePerPage from "../../components/PokePerPage/PokePerPage";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import { fetchGet, getDetailedList, getResourceURL } from "../../util";
+import { fetchGet, getDetailedList} from "../../util";
 
 function Home() {
     const [pokemonList, setPokemonList] = useState();
     const [filteredResults, setFilteredResults] = useState();
-    const [filterApplied, setFilterApplied] = useState(false);
+    const [isFilterApplied, setIsFilterApplied] = useState(false);
+    const [filterApplied, setFilterApplied] = useState();
 
     const [offset,setOffset] = useState(0);
     const [limit, setLimit] = useState(20);
@@ -23,10 +24,19 @@ function Home() {
         fetchGet(currentPageURL).then(async(data) => {
             const pokemonList = data.results;
             const detailedPokemonList = await getDetailedList(pokemonList);
+            let toRenderList = detailedPokemonList;
+
+            if(isFilterApplied){
+                toRenderList = detailedPokemonList.filter((obj)=>{
+                    if(obj.properTypes.has(filterApplied)){
+                        return obj;
+                    }
+                })
+            }
             setPokemonList(detailedPokemonList);
-            setListToRender(detailedPokemonList);
+            setListToRender(toRenderList);
         })
-    }, [currentPageURL]);       
+    }, [currentPageURL]);   
 
     return ( 
        (pokemonList === undefined || listToRender === undefined) ?
@@ -37,13 +47,13 @@ function Home() {
        </Container>:
         <Container>
             {
-                (filterApplied) ? 
+                (isFilterApplied) ? 
                 <SearchBar list = {filteredResults} setListToRender={setListToRender} /> :
                 <SearchBar list = {pokemonList} setListToRender={setListToRender} />
             }
             <Container className="d-flex flex-column flex-sm-row justify-content-sm-between p-0">
                 <PokePerPage offset={offset} limit={limit} setCurrentPageURL={setCurrentPageURL} setLimit={setLimit} />
-                <FilterByType list={pokemonList} setFilteredResults={setFilteredResults} setListToRender={setListToRender}  setFilterApplied={setFilterApplied} />
+                <FilterByType list={pokemonList} setFilteredResults={setFilteredResults} setListToRender={setListToRender}  setIsFilterApplied={setIsFilterApplied} filterApplied={filterApplied} setFilterApplied={setFilterApplied}/>
             </Container>
             <Row>
                 {
