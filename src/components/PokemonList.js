@@ -6,6 +6,7 @@ function PokemonList({list}){
         list.map((pokemon, idx) => {
             const capitalizedName = getCapitalizedName(pokemon.name);
             const imgSrc = getImageSrcFor(pokemon.id);
+            const properTypesArr = [...pokemon.properTypes];
             return (
                 <Col sm={4} md={3} key={idx} style={{marginBottom:"1rem"}}>
                     <Card>
@@ -14,7 +15,7 @@ function PokemonList({list}){
                             <Card.Title>{ capitalizedName }</Card.Title>
                             <Card.Text>
                                 {
-                                    pokemon.properTypes.map((type,idx) => {
+                                    properTypesArr.map((type,idx) => {
                                         return (
                                             <Badge key={idx} pill bg='secondary' style={{ marginRight:'.5rem', padding:'.5rem'}}>
                                                 {type}

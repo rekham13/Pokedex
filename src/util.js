@@ -37,9 +37,9 @@ const getDetailedList = async(pokemonList) => {
 }
 
 const getProperTypes = (typesArr) => {
-    const properTypes = typesArr.map(obj => {
-        return obj.type.name;
-    });
+    const properTypes = new Set();
+
+    typesArr.forEach(obj=>properTypes.add(obj.type.name));
 
     return properTypes;
 };
@@ -66,12 +66,4 @@ const getFormattedForImageId = (id) => {
     return formattedForImageId;
 }
 
-const getResourceURL = (url)=>{
-    if(url == null) return null;
-
-    const parsedURL = new URL(url);
-
-    return `/pokemon/${parsedURL.search}`;
-}
-
-export { fetchGet, getCapitalizedName, getDetailedList,getImageSrcFor,getResourceURL};
+export { fetchGet, getCapitalizedName, getDetailedList,getImageSrcFor};
