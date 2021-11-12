@@ -22,7 +22,9 @@ function SearchBar({list, setListToRender}){
         if(filter.length === 0) return toFilterList;
 
         return toFilterList.filter(element=>{
-            if(element.name.includes(filter)){
+            const name = element.name.toLowerCase();
+
+            if(name.includes(filter.toLowerCase())){
                 return element;
             }
         })
