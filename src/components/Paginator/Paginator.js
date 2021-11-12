@@ -20,7 +20,7 @@ function Paginator({setCurrentPageURL, limit, offset,setOffset}){
             <Button {...prevButtonProps} {...commonProps} onClick={handlePrevClick}>
                 Previous
             </Button>
-            <span className="small">Showing {offset+1} to {offset + limit} </span>
+            <span className="small text-center mb-3">Showing {offset+1} to {offset + limit} </span>
             <Button {...nextButtonProps} {...commonProps} onClick={handleNextClick}>
                 Next
             </Button>
