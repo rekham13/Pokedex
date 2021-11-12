@@ -23,18 +23,19 @@ function Home() {
     useEffect(() => {
         fetchGet(currentPageURL).then(async(data) => {
             const pokemonList = data.results;
-            const detailedPokemonList = await getDetailedList(pokemonList);
-            let toRenderList = detailedPokemonList;
+            const [detailedPokemonListForHome,detailedPokemonListForDetails] = await getDetailedList(pokemonList);
+            let toRenderList = detailedPokemonListForHome;
 
             if(isFilterApplied){
-                toRenderList = detailedPokemonList.filter((obj)=>{
+                toRenderList = detailedPokemonListForHome.filter((obj)=>{
                     if(obj.properTypes.has(filterApplied)){
                         return obj;
                     }
                 })
             }
-            setPokemonList(detailedPokemonList);
+            setPokemonList(detailedPokemonListForHome);
             setListToRender(toRenderList);
+            localStorage.setItem("details",JSON.stringify(detailedPokemonListForDetails));
         })
     }, [currentPageURL]);   
 
