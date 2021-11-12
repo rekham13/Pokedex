@@ -1,18 +1,16 @@
 import { Col, Card, Badge, Button  } from "react-bootstrap";
-import { getCapitalizedName,getImageSrcFor } from "../util";
+import { Link } from "react-router-dom";
 
 function PokemonList({list}){
     return(
         list.map((pokemon, idx) => {
-            const capitalizedName = getCapitalizedName(pokemon.name);
-            const imgSrc = getImageSrcFor(pokemon.id);
             const properTypesArr = [...pokemon.properTypes];
             return (
-                <Col sm={4} md={3} key={idx} style={{marginBottom:"1rem"}}>
+                <Col sm={6} md={4} key={idx} style={{marginBottom:"1rem"}}>
                     <Card>
-                        <Card.Img variant="top" src={imgSrc} />
+                        <Card.Img variant="top" src={pokemon.imageSrc} />
                         <Card.Body>
-                            <Card.Title>{ capitalizedName }</Card.Title>
+                            <Card.Title className="text-capitalize">{ pokemon.name }</Card.Title>
                             <Card.Text>
                                 {
                                     properTypesArr.map((type,idx) => {
@@ -24,7 +22,11 @@ function PokemonList({list}){
                                     })
                                 }
                             </Card.Text>
-                            <Button variant="dark">View More</Button>
+                            <Link to={`/details/${pokemon.id}`} style={{textDecoration:"none","color":"inherit"}}>
+                                <Button variant="dark">
+                                        View More
+                                </Button>
+                            </Link>
                         </Card.Body>
                     </Card>
                 </Col>
