@@ -85,7 +85,7 @@ const getStats = (stats)=>{
 };
 
 const getAbilities = (abilities)=>{
-    let properAblities = [abilities[0]["ability"].name, abilities[1]["ability"].name];
+    let properAblities;
 
     if(abilities.length === 0){
         properAblities = ["NA"];
