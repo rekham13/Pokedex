@@ -7,33 +7,38 @@ const fetchGet = async(url, options={}) => {
     return data;
 }
 
-const getCapitalizedName = (str) => {
-    const capitalFirstLetter = str[0].toUpperCase();
-    const capitalizedStr = capitalFirstLetter + str.substr(1, str.length);
-
-    return capitalizedStr;
-}
-
 const getDetailedList = async(pokemonList) => {
-    const detailedList = [];
+    const detailedListForHome = [];
+    const detailedListForDetail = {};
 
     for await (const pokemon of pokemonList) {
-        const baseURL = process.env.REACT_APP_BASEURL;
         const data = await fetchGet(`/pokemon/${pokemon.name}`);
-        const { types, name,id } = data;
+        const { types, name,id,stats,height,weight,abilities } = data;
 
         const properTypes = getProperTypes(types);
+        const imageSrc = getImageSrcFor(id);
 
-        const details = {
+        const detailsForHome = {
             id,
             name,
-            properTypes
-        }
+            properTypes,
+            imageSrc
+        };
+
+
+        const detailsForDetail = {...detailsForHome};
+        detailsForDetail.stats = stats;
+        detailsForDetail.height = height; 
+        detailsForDetail.weight = weight;
+        detailsForDetail.abilities = abilities;
+        detailsForDetail.types = [...detailsForHome.properTypes];
+
         
-        detailedList.push(details);
+        detailedListForHome.push(detailsForHome);
+        detailedListForDetail[id] = detailsForDetail;
     }
 
-    return detailedList;
+    return [detailedListForHome, detailedListForDetail];
 }
 
 const getProperTypes = (typesArr) => {
@@ -66,4 +71,22 @@ const getFormattedForImageId = (id) => {
     return formattedForImageId;
 }
 
-export { fetchGet, getCapitalizedName, getDetailedList,getImageSrcFor};
+const getStats = (stats)=>{
+    const properStats = stats.map(stat=>{
+        const statObj = {
+            statName:stat.stat.name,
+            statScore: stat.base_stat
+        }
+
+        return statObj;
+    });
+
+    return properStats;
+};
+
+const getAbilities = (abilities)=>{
+    let properAblities = [abilities[0]["ability"].name, abilities[1]["ability"].name];
+    return properAblities;
+}
+
+export { fetchGet,getDetailedList,getImageSrcFor,getStats,getAbilities};
